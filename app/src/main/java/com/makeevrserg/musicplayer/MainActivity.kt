@@ -30,6 +30,20 @@ class MainActivity : AppCompatActivity() {
     //Должен быть глобальной переменной чтобы сбросить всё, если сменится основная музыка
     var handler: Handler? = null
 
+    override fun onPause() {
+        super.onPause()
+        if (mediaPlayer1 != null && mediaPlayer1!!.isPlaying)
+            mediaPlayer1!!.pause()
+        if (mediaPlayer2 != null && mediaPlayer2!!.isPlaying)
+            mediaPlayer2!!.pause()
+        imageButtonPause.setImageDrawable(
+            ContextCompat.getDrawable(
+                mContext!!,
+                R.drawable.ic_play
+            )
+        )
+    }
+
     fun checkToast() {
         if (toast == null)
             return
@@ -59,9 +73,28 @@ class MainActivity : AppCompatActivity() {
                     toast!!.show()
                     //Ставим старое значение
                     seekBar!!.progress = crossfade
+                    //Нельзя начать играть если длина файлов меньше кроссфейда
+                } else if (mediaPlayer1!!.duration / 1000 < seekBar!!.progress || mediaPlayer2!!.duration / 1000 < seekBar.progress) {
+                    checkToast()
+                    toast = Toast.makeText(
+                        mContext,
+                        "Один из аудиофайлов слишком короткий для данного кроссфейда",
+                        Toast.LENGTH_SHORT
+                    )
+                    toast!!.show()
+                    if (mediaPlayer2!!.isPlaying)
+                        mediaPlayer2!!.pause()
+                    if (mediaPlayer1!!.isPlaying)
+                        mediaPlayer1!!.pause()
+                    imageButtonPause.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            mContext!!,
+                            R.drawable.ic_play
+                        )
+                    )
+                    seekBar.progress = crossfade
                 } else
                     crossfade = progress
-
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -88,26 +121,8 @@ class MainActivity : AppCompatActivity() {
                 currentMediaPlayer = mediaPlayer1
                 initDelay()
             }
-            //Нельзя начать играть если длина файлов меньше кроссфейда
-            if (mediaPlayer1!!.duration / 1000 < crossfade || mediaPlayer2!!.duration / 1000 < crossfade) {
-                checkToast()
-                toast = Toast.makeText(
-                    this,
-                    "Один из аудиофайлов слишком короткий для данного кроссфейда",
-                    Toast.LENGTH_SHORT
-                )
-                toast!!.show()
-                if (mediaPlayer2!!.isPlaying)
-                    mediaPlayer2!!.pause()
-                if (mediaPlayer1!!.isPlaying)
-                    mediaPlayer1!!.pause()
-                imageButtonPause.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        mContext!!,
-                        R.drawable.ic_play
-                    )
-                )
-            }
+
+
             if (currentMediaPlayer!!.isPlaying) {
                 imageButtonPause.setImageDrawable(
                     ContextCompat.getDrawable(
