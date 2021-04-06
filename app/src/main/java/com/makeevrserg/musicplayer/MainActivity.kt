@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.SeekBar
 import android.widget.Toast
@@ -226,6 +227,7 @@ class MainActivity : AppCompatActivity() {
                     //Ставим громкость звука с delay'м в 100мс
                     val mSound: Float = (1.0f - (toEnd.toFloat() / (crossfade)))
                     mediaPlayer2!!.setVolume(mSound, mSound)
+                    mediaPlayer1!!.setVolume(1.0f-mSound,1.0f-mSound)
                 }
                 //Когда заканчивается первая запись - меняем указатели друг на друга
                 //Теперь основной плеер у нас - это второй, а первый становится вторым
