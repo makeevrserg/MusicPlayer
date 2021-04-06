@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:progressDrawable="@drawable/progress_bar"
-
+        android:layout_marginHorizontal="10sp"
         android:thumb="@drawable/progress_thumb"
         android:splitTrack="false"
         android:max="10"

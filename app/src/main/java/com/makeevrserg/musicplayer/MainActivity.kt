@@ -1,5 +1,6 @@
 package com.makeevrserg.musicplayer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var crossfade = 2
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = applicationContext
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(fileBrowserIntent, RES)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -167,7 +170,7 @@ class MainActivity : AppCompatActivity() {
                     val toEnd =
                         (currentMediaPlayer!!.duration - currentMediaPlayer!!.currentPosition) / 1000
                     //Делаем кроссфейд
-                    if (mediaPlayer2!!.isPlaying && toEnd>crossfade)
+                    if (mediaPlayer2!!.isPlaying && toEnd > crossfade)
                         mediaPlayer2!!.pause()
                     if (toEnd <= crossfade && currentMediaPlayer!!.isPlaying) {
                         if (!mediaPlayer2!!.isPlaying) {

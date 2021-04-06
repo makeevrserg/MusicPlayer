@@ -2,13 +2,13 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/button_shape" />
+        android:drawable="@drawable/progress_background" />
     <item android:id="@android:id/progress">
         <clip android:drawable="?attr/colorSecondaryVariant">
             <shape android:shape="rectangle">
                 <size android:height="5dp" />
                 <corners android:radius="5dp" />
-                <solid android:color="?attr/colorSecondaryVariant"/>
+                <solid android:color="#0888C3"/>
             </shape>
         </clip>
 
