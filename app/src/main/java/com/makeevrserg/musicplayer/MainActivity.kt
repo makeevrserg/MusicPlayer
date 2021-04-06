@@ -11,12 +11,12 @@ import android.webkit.MimeTypeMap
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_debug.*
 
 class MainActivity : AppCompatActivity() {
-    private val TAG: String = "MainActivity"
     private val MUSIC_RESULT1: Int = 10
-    private val MUSIC_RESULT2: Int = 11
+    private val MUSIC_RESULT_2: Int = 11
 
     private var mContext: Context? = null
     private var crossfade = 2
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     //Должен быть глобальной переменной чтобы сбросить всё, если сменится основная музыка
     var handler: Handler? = null
 
-    fun CheckToast() {
+    fun checkToast() {
         if (toast == null)
             return
         toast!!.cancel()
@@ -43,14 +43,14 @@ class MainActivity : AppCompatActivity() {
 
         mContext = applicationContext
 
-        buttonMusic1.setOnClickListener { SetMusicIntent(MUSIC_RESULT1) }
-        buttonMusic2.setOnClickListener { SetMusicIntent(MUSIC_RESULT2) }
+        buttonMusic1.setOnClickListener { setMusicIntent(MUSIC_RESULT1) }
+        buttonMusic2.setOnClickListener { setMusicIntent(MUSIC_RESULT_2) }
 
         seekBarCrossfade.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 //Нельзя менять во время проигрывания
                 if (currentMediaPlayer != null && currentMediaPlayer!!.isPlaying) {
-                    CheckToast()
+                    checkToast()
                     toast = Toast.makeText(
                         mContext,
                         "Нельзя менять во время проигрывания",
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         imageButtonPause.setOnClickListener {
 
             if (mediaPlayer1 == null || mediaPlayer2 == null) {
-                CheckToast()
+                checkToast()
                 toast =
                     Toast.makeText(this, "Не выбран один из музыкальных файлов", Toast.LENGTH_SHORT)
                 toast!!.show()
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             }
             //Нельзя начать играть если длина файлов меньше кроссфейда
             if (mediaPlayer1!!.duration / 1000 < crossfade || mediaPlayer2!!.duration / 1000 < crossfade) {
-                CheckToast()
+                checkToast()
                 toast = Toast.makeText(
                     this,
                     "Один из аудиофайлов слишком короткий для данного кроссфейда",
@@ -101,15 +101,30 @@ class MainActivity : AppCompatActivity() {
                     mediaPlayer2!!.pause()
                 if (mediaPlayer1!!.isPlaying)
                     mediaPlayer1!!.pause()
-                imageButtonPause.setImageDrawable(getDrawable(R.drawable.ic_play))
+                imageButtonPause.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        mContext!!,
+                        R.drawable.ic_play
+                    )
+                )
             }
             if (currentMediaPlayer!!.isPlaying) {
-                imageButtonPause.setImageDrawable(getDrawable(R.drawable.ic_play))
+                imageButtonPause.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        mContext!!,
+                        R.drawable.ic_play
+                    )
+                )
                 currentMediaPlayer!!.pause()
                 if (mediaPlayer2!!.isPlaying)
                     mediaPlayer2!!.pause()
             } else {
-                imageButtonPause.setImageDrawable(getDrawable(R.drawable.ic_pause))
+                imageButtonPause.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        mContext!!,
+                        R.drawable.ic_pause
+                    )
+                )
                 currentMediaPlayer!!.start()
             }
         }
@@ -117,7 +132,7 @@ class MainActivity : AppCompatActivity() {
 
     //Задаем интент который покажет список наших mp3 файлов
     //Запускаем активити которая возвратит результат
-    fun SetMusicIntent(RES: Int) {
+    private fun setMusicIntent(RES: Int) {
         val fileBrowserIntent: Intent =
             Intent(Intent.ACTION_GET_CONTENT, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
         val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp3")
@@ -140,7 +155,12 @@ class MainActivity : AppCompatActivity() {
                         if (currentMediaPlayer != null && currentMediaPlayer == mediaPlayer1) {
                             currentMediaPlayer!!.reset()
                             currentMediaPlayer = null
-                            imageButtonPause.setImageDrawable(getDrawable(R.drawable.ic_play))
+                            imageButtonPause.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    mContext!!,
+                                    R.drawable.ic_play
+                                )
+                            )
                         }
                         mediaPlayer1!!.reset()
                         mediaPlayer2!!.pause()
@@ -148,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                     mediaPlayer1 = MediaPlayer.create(this, data?.data!!)
                 }
 
-            MUSIC_RESULT2 ->
+            MUSIC_RESULT_2 ->
                 if (resultCode == Activity.RESULT_OK) {
                     if (mediaPlayer2 != null)
                         mediaPlayer2!!.reset()

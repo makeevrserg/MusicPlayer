@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_shape"
-            android:text="Песня 1" />
+            android:text="@string/button_song1" />
         <ImageButton
             android:id="@+id/imageButtonPause"
             android:layout_width="75dp"
@@ -28,13 +28,14 @@
             android:layout_marginHorizontal="20sp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_play" />
+            app:srcCompat="@drawable/ic_play"
+            android:contentDescription="@string/image_button_start_stop" />
         <Button
             android:id="@+id/buttonMusic2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_shape"
-            android:text="Песня 2" />
+            android:text="@string/button_song2" />
     </LinearLayout>
     <SeekBar
         android:id="@+id/seekBarCrossfade"

@@ -4,7 +4,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#202020</item>
+        <item name="colorPrimary">#FF202020</item>
         <item name="colorPrimaryDark">#FF101010</item>
 
         <item name="colorPrimaryVariant">#FF151515</item>
