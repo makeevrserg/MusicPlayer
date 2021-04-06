@@ -62,6 +62,18 @@ class MainActivity : AppCompatActivity() {
 
         seekBarCrossfade.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (mediaPlayer2==null || mediaPlayer1==null){
+                    checkToast()
+
+                    toast = Toast.makeText(
+                        mContext,
+                        "Не выбран один из файлов",
+                        Toast.LENGTH_SHORT
+                    )
+                    toast!!.show()
+                    seekBar!!.progress = crossfade
+                    return
+                }
                 //Нельзя менять во время проигрывания
                 if (currentMediaPlayer != null && currentMediaPlayer!!.isPlaying) {
                     checkToast()
